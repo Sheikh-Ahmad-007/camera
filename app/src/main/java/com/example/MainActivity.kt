@@ -1,0 +1,45 @@
+package com.example
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.db.AppDatabase
+import com.example.db.PhotoRepository
+import com.example.ui.CameraScreen
+import com.example.ui.theme.MyApplicationTheme
+import com.example.viewmodel.CameraViewModel
+import com.example.viewmodel.CameraViewModelFactory
+
+class MainActivity : ComponentActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    enableEdgeToEdge()
+    setContent {
+      MyApplicationTheme {
+        val context = LocalContext.current
+        
+        // Initialize local Room persistence
+        val database = AppDatabase.getDatabase(context)
+        val photoDao = database.photoDao()
+        val repository = PhotoRepository(photoDao)
+        
+        // Build ViewModel using dynamic factory
+        val factory = CameraViewModelFactory(context.applicationContext, repository)
+        val viewModel: CameraViewModel = viewModel(factory = factory)
+
+        CameraScreen(
+          viewModel = viewModel,
+          modifier = Modifier.fillMaxSize()
+        )
+      }
+    }
+  }
+}

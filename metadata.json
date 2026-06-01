@@ -1,0 +1,6 @@
+{
+  "name": "Pro Camera",
+  "description": "Professional manual and AI-assisted camera app, with RAW capture, 200MP full-resolution simulations, manual controls, and Gemini AI image enhancement.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
